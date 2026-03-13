@@ -1,37 +1,157 @@
-// Core game state
+// =========================
+// CORE GAME STATE
+// =========================
+
 const game = {
-  gp: 0,          // grump points
-  gps: 0,         // grump points per second (from buildings later)
-  gpPerClick: 1,  // base click value
+  gp: 0,
+  gps: 0,
+  gpPerClick: 1,
+  totalClicks: 0
 };
 
 // DOM refs
 const gpSpan = document.getElementById("gp");
 const gpsSpan = document.getElementById("gps");
+const buildingsList = document.getElementById("buildings-list");
 const deaverButton = document.getElementById("deaver-button");
 
-// Click handler
+// =========================
+// CLICK HANDLER
+// =========================
+
 deaverButton.addEventListener("click", () => {
   game.gp += game.gpPerClick;
-  updateDisplay();
-  // later: floating +1 text, jiggle, sound, etc.
+  game.totalClicks++;
+  gpSpan.textContent = Math.floor(game.gp);
 });
 
-// Display update
-function updateDisplay() {
-  gpSpan.textContent = Math.floor(game.gp);
-  gpsSpan.textContent = game.gps.toFixed(1);
+// =========================
+// BUILDING UI GENERATION
+// =========================
+
+function createBuildingUI(building) {
+  const div = document.createElement("div");
+  div.className = "building";
+
+  const btn = document.createElement("button");
+  btn.textContent = `${building.name} — ${building.baseCost} GP`;
+  btn.addEventListener("click", () => buyBuilding(building.id));
+
+  const amt = document.createElement("span");
+  amt.textContent = `Owned: ${building.amount}`;
+
+  div.appendChild(btn);
+  div.appendChild(amt);
+
+  building.ui = { btn, amt };
+  buildingsList.appendChild(div);
 }
 
-// Basic game loop (for passive income later)
-const TICK_MS = 100; // 10 ticks per second
+function initBuildings() {
+  buildings.forEach(b => createBuildingUI(b));
+}
+
+// =========================
+// BUY BUILDING
+// =========================
+
+function getBuildingCost(b) {
+  return Math.floor(b.baseCost * Math.pow(b.costMultiplier, b.amount));
+}
+
+function buyBuilding(id) {
+  const b = buildings.find(x => x.id === id);
+  const cost = getBuildingCost(b);
+
+  if (game.gp >= cost) {
+    game.gp -= cost;
+    b.amount++;
+    updateGPS();
+    updateBuildingUI(b);
+    gpSpan.textContent = Math.floor(game.gp);
+  }
+}
+
+function updateBuildingUI(b) {
+  b.ui.btn.textContent = `${b.name} — ${getBuildingCost(b)} GP`;
+  b.ui.amt.textContent = `Owned: ${b.amount}`;
+}
+
+// =========================
+// GPS CALCULATION
+// =========================
+
+function updateGPS() {
+  let total = 0;
+  buildings.forEach(b => {
+    total += b.amount * b.baseProduction;
+  });
+
+  // apply upgrades
+  upgrades.forEach(u => {
+    if (u.purchased) {
+      const b = buildings.find(x => x.id === u.requiresBuilding);
+      if (b) {
+        total += b.amount * b.baseProduction * (u.multiplier - 1);
+      }
+    }
+  });
+
+  game.gps = total;
+  gpsSpan.textContent = total.toFixed(1);
+}
+
+// =========================
+// UPGRADES (simple version)
+// =========================
+
+function checkUpgrades() {
+  upgrades.forEach(u => {
+    if (!u.purchased) {
+      const b = buildings.find(x => x.id === u.requiresBuilding);
+      if (b && b.amount >= 1 && game.gp >= u.cost) {
+        // auto-purchase for now (we’ll add UI later)
+        game.gp -= u.cost;
+        u.purchased = true;
+        updateGPS();
+      }
+    }
+  });
+}
+
+// =========================
+// ACHIEVEMENTS
+// =========================
+
+function checkAchievements() {
+  achievements.forEach(a => {
+    if (!a.unlocked && a.condition()) {
+      a.unlocked = true;
+      console.log("Achievement unlocked:", a.name);
+      // later: popup animation
+    }
+  });
+}
+
+// =========================
+// GAME LOOP (10 TPS)
+// =========================
 
 setInterval(() => {
+  // passive income
   if (game.gps > 0) {
     game.gp += game.gps / 10;
     gpSpan.textContent = Math.floor(game.gp);
   }
+
+  checkUpgrades();
+  checkAchievements();
 }, 100);
 
-// Initial draw
-updateDisplay();
+// =========================
+// INIT
+// =========================
+
+initBuildings();
+updateGPS();
+gpSpan.textContent = 0;
