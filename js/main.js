@@ -83,18 +83,18 @@ function updateBuildingUI(b) {
 
 function updateGPS() {
   let total = 0;
-  buildings.forEach(b => {
-    total += b.amount * b.baseProduction;
-  });
 
-  // apply upgrades
-  upgrades.forEach(u => {
-    if (u.purchased) {
-      const b = buildings.find(x => x.id === u.requiresBuilding);
-      if (b) {
-        total += b.amount * b.baseProduction * (u.multiplier - 1);
+  buildings.forEach(b => {
+    let prod = b.baseProduction;
+
+    // apply upgrades that affect this building
+    upgrades.forEach(u => {
+      if (u.purchased && u.requiresBuilding === b.id) {
+        prod *= u.multiplier;
       }
-    }
+    });
+
+    total += b.amount * prod;
   });
 
   game.gps = total;

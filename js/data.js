@@ -6,7 +6,8 @@ const buildings = [
     baseCost: 15,
     costMultiplier: 1.15,
     baseProduction: 0.1,
-    description: "They try their best."
+    description: "They try their best.",
+    amount: 0
   },
   {
     id: "sectionLeader",
@@ -14,7 +15,8 @@ const buildings = [
     baseCost: 100,
     costMultiplier: 1.15,
     baseProduction: 1,
-    description: "Keeps the freshmen in line."
+    description: "Keeps the freshmen in line.",
+    amount: 0
   }
 ];
 
