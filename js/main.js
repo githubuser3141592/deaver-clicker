@@ -28,10 +28,10 @@ const TICK_MS = 100; // 10 ticks per second
 
 setInterval(() => {
   if (game.gps > 0) {
-    game.gp += (game.gps / 10); // gps spread over 10 ticks
-    updateDisplay();
+    game.gp += game.gps / 10;
+    gpSpan.textContent = Math.floor(game.gp);
   }
-}, TICK_MS);
+}, 100);
 
 // Initial draw
 updateDisplay();

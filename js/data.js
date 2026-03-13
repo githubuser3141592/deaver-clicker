@@ -1,0 +1,42 @@
+// Buildings
+const buildings = [
+  {
+    id: "freshman",
+    name: "Freshman",
+    baseCost: 15,
+    costMultiplier: 1.15,
+    baseProduction: 0.1,
+    description: "They try their best."
+  },
+  {
+    id: "sectionLeader",
+    name: "Section Leader",
+    baseCost: 100,
+    costMultiplier: 1.15,
+    baseProduction: 1,
+    description: "Keeps the freshmen in line."
+  }
+];
+
+// Upgrades
+const upgrades = [
+  {
+    id: "freshmanTraining",
+    name: "Freshman Training",
+    cost: 100,
+    unlocksAt: "freshman",
+    multiplier: 2,
+    description: "Freshmen become slightly less confused."
+  }
+];
+
+// Achievements
+const achievements = [
+  {
+    id: "firstClick",
+    name: "First Click!",
+    condition: () => game.totalClicks >= 1,
+    reward: 0.1,
+    description: "You clicked the Deaver."
+  }
+];
