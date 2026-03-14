@@ -140,6 +140,7 @@ function buyBuilding(id) {
     updateBuildingUI(b);
     gpSpan.textContent = Math.floor(game.gp);
   }
+  updateUpgradeDot();
 }
 
 function updateBuildingUI(b) {
@@ -188,6 +189,24 @@ function buyUpgrade(u) {
   game.gp -= u.cost;
   u.purchased = true;
   updateGPS();
+  updateUpgradeDot();
+}
+
+function updateUpgradeDot() {
+  const dot = document.getElementById("upgrade-dot");
+  let show = false;
+
+  upgrades.forEach(u => {
+    if (u.purchased) return;
+
+    const b = buildings.find(x => x.id === u.requiresBuilding);
+    if (!b || b.amount < 1) return;
+
+    // you have enough buildings → show dot
+    show = true;
+  });
+
+  dot.style.display = show ? "block" : "none";
 }
 
 // =========================
@@ -226,8 +245,10 @@ setInterval(() => {
   });
 
   checkAchievements();
+  updateUpgradeDot();
 
   if (changed) {
+    // only update if passive income changed GP
     gpSpan.textContent = Math.floor(game.gp);
   }
 }, 100);

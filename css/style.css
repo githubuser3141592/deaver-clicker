@@ -47,9 +47,6 @@ body {
   transition: transform 0.05s ease, box-shadow 0.05s ease;
 }
 
-#deaver-button:active {
-  transform: scale(0.95);
-}
 
 #sidebar {
   flex: 1;
@@ -161,4 +158,19 @@ body {
 .upgrade-entry.locked {
   filter: brightness(40%);
   cursor: not-allowed;
+}
+
+#open-upgrades {
+  position: relative;
+}
+
+#upgrade-dot {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  display: none;
 }
