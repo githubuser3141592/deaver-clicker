@@ -8,7 +8,7 @@ const game = {
   gpPerClick: 1,
   totalClicks: 0
 };
-
+setInterval(saveGame, 5000);
 // DOM refs
 const gpSpan = document.getElementById("gp");
 const gpsSpan = document.getElementById("gps");
@@ -251,7 +251,8 @@ setInterval(() => {
 // =========================
 // INIT
 // =========================
-
+loadGame();
 initBuildings();
 updateGPS();
-gpSpan.textContent = 0;
+gpSpan.textContent = Math.floor(game.gp);
+updateUpgradeDot();

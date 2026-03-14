@@ -3,7 +3,7 @@ function saveGame() {
     game,
     buildings: buildings.map(b => ({
       ...b,
-      ui: undefined // prevent saving UI elements
+      ui: undefined // don't save UI elements
     })),
     upgrades: upgrades.map(u => ({
       ...u,
@@ -41,12 +41,14 @@ function loadGame() {
     Object.assign(achievements[i], saved);
   });
 
-  // rebuild UI after loading
+  // rebuild UI
   buildingsList.innerHTML = "";
-  upgradesBar.innerHTML = "";
-
   initBuildings();
-  initUpgrades();
+
+  // upgrades are now shown ONLY in the slide-out panel
+  // so we do NOT rebuild icons anymore
+
   updateGPS();
   gpSpan.textContent = Math.floor(game.gp);
+  updateUpgradeDot();
 }
