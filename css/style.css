@@ -101,3 +101,53 @@ body {
   font-size: 14px;
   opacity: 0.8;
 }
+
+#upgrades-panel {
+  margin-top: 20px;
+}
+
+#upgrades-bar {
+  height: 60px;
+  background: #222;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 5px;
+  transition: height 0.2s ease;
+}
+
+#upgrades-expanded {
+  display: none;
+  background: #333;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.upgrade-icon {
+  width: 50px;
+  height: 50px;
+  background: #555;
+  border-radius: 6px;
+  display: inline-block;
+  margin-right: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.upgrade-icon.locked {
+  filter: brightness(40%);
+  cursor: not-allowed;
+}
+
+.upgrade-tooltip {
+  position: absolute;
+  left: 60px;
+  top: 0;
+  background: #222;
+  padding: 8px;
+  border-radius: 6px;
+  width: 200px;
+  display: none;
+  z-index: 10;
+}

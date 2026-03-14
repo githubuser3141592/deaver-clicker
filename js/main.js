@@ -14,6 +14,8 @@ const gpSpan = document.getElementById("gp");
 const gpsSpan = document.getElementById("gps");
 const buildingsList = document.getElementById("buildings-list");
 const deaverButton = document.getElementById("deaver-button");
+const upgradesBar = document.getElementById("upgrades-bar");
+const upgradesExpanded = document.getElementById("upgrades-expanded");
 
 // =========================
 // CLICK HANDLER
@@ -63,6 +65,7 @@ function createBuildingUI(building) {
   building.ui = { btn, amt, prod };
   buildingsList.appendChild(div);
 }
+
 function initBuildings() {
   buildings.forEach(b => createBuildingUI(b));
 }
@@ -119,21 +122,62 @@ function updateGPS() {
 }
 
 // =========================
-// UPGRADES (simple version)
+// UPGRADE UI
 // =========================
 
-function checkUpgrades() {
-  upgrades.forEach(u => {
-    if (!u.purchased) {
-      const b = buildings.find(x => x.id === u.requiresBuilding);
-      if (b && b.amount >= 1 && game.gp >= u.cost) {
-        // auto-purchase for now (we’ll add UI later)
-        game.gp -= u.cost;
-        u.purchased = true;
-        updateGPS();
-      }
+function createUpgradeIcon(upgrade) {
+  const icon = document.createElement("div");
+  icon.className = "upgrade-icon locked";
+
+  const tooltip = document.createElement("div");
+  tooltip.className = "upgrade-tooltip";
+  tooltip.innerHTML = `
+    <strong>${upgrade.name}</strong><br>
+    ${upgrade.description}<br>
+    Cost: ${upgrade.cost} GP
+  `;
+
+  icon.appendChild(tooltip);
+
+  icon.addEventListener("mouseenter", () => {
+    tooltip.style.display = "block";
+  });
+
+  icon.addEventListener("mouseleave", () => {
+    tooltip.style.display = "none";
+  });
+
+  icon.addEventListener("click", () => {
+    if (canBuyUpgrade(upgrade)) {
+      buyUpgrade(upgrade);
+      icon.remove();
     }
   });
+
+  upgrade.ui = { icon, tooltip };
+  upgradesBar.appendChild(icon);
+}
+
+function initUpgrades() {
+  upgrades.forEach(u => {
+    if (u.purchased === undefined) u.purchased = false;
+    createUpgradeIcon(u);
+  });
+}
+
+function canBuyUpgrade(u) {
+  const b = buildings.find(x => x.id === u.requiresBuilding);
+  return (
+    !u.purchased &&
+    b.amount >= 1 &&
+    game.gp >= u.cost
+  );
+}
+
+function buyUpgrade(u) {
+  game.gp -= u.cost;
+  u.purchased = true;
+  updateGPS();
 }
 
 // =========================
@@ -145,7 +189,6 @@ function checkAchievements() {
     if (!a.unlocked && a.condition()) {
       a.unlocked = true;
       console.log("Achievement unlocked:", a.name);
-      // later: popup animation
     }
   });
 }
@@ -161,7 +204,19 @@ setInterval(() => {
     gpSpan.textContent = Math.floor(game.gp);
   }
 
-  checkUpgrades();
+  // update upgrade icon brightness
+  upgrades.forEach(u => {
+    if (u.purchased) return;
+
+    const b = buildings.find(x => x.id === u.requiresBuilding);
+
+    if (b.amount >= 1 && game.gp >= u.cost) {
+      u.ui.icon.classList.remove("locked");
+    } else {
+      u.ui.icon.classList.add("locked");
+    }
+  });
+
   checkAchievements();
 }, 100);
 
@@ -170,5 +225,6 @@ setInterval(() => {
 // =========================
 
 initBuildings();
+initUpgrades();
 updateGPS();
 gpSpan.textContent = 0;
