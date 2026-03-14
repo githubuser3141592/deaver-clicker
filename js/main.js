@@ -319,6 +319,40 @@ const marketPriceEl = document.getElementById("market-price");
 const marketOwnedEl = document.getElementById("market-owned");
 const openMarketBtn = document.getElementById("open-market");
 
+// =========================
+// BUY AMOUNT SELECTOR
+// =========================
+let marketBuyAmount = 1;
+
+document.querySelectorAll(".market-buy-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const amt = btn.dataset.amount;
+
+    if (amt === "max") {
+      marketBuyAmount = "max";
+    } else {
+      marketBuyAmount = parseInt(amt);
+    }
+  });
+});
+
+// =========================
+// SELL AMOUNT SELECTOR
+// =========================
+let marketSellAmount = 1;
+
+document.querySelectorAll(".market-sell-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const amt = btn.dataset.amount;
+
+    if (amt === "max") {
+      marketSellAmount = "max";
+    } else {
+      marketSellAmount = parseInt(amt);
+    }
+  });
+});
+
 document.getElementById("close-market").addEventListener("click", () => {
   marketOverlay.classList.remove("show");
 });
@@ -348,23 +382,45 @@ setInterval(() => {
 
 // Buy
 document.getElementById("market-buy").addEventListener("click", () => {
-  if (game.gp >= game.marketPrice) {
-    game.gp -= game.marketPrice;
-    game.marketShares++;
+  let amountToBuy = marketBuyAmount;
+
+  if (amountToBuy === "max") {
+    amountToBuy = Math.floor(game.gp / game.marketPrice);
+  }
+
+  if (amountToBuy <= 0) return;
+
+  const totalCost = amountToBuy * game.marketPrice;
+
+  if (game.gp >= totalCost) {
+    game.gp -= totalCost;
+    game.marketShares += amountToBuy;
     marketOwnedEl.textContent = `Shares Owned: ${game.marketShares}`;
     gpSpan.textContent = Math.floor(game.gp);
   }
 });
 
+
 // Sell
 document.getElementById("market-sell").addEventListener("click", () => {
-  if (game.marketShares > 0) {
-    game.marketShares--;
-    game.gp += game.marketPrice;
+  let amountToSell = marketSellAmount;
+
+  if (amountToSell === "max") {
+    amountToSell = game.marketShares;
+  }
+
+  if (amountToSell <= 0) return;
+
+  const totalGain = amountToSell * game.marketPrice;
+
+  if (game.marketShares >= amountToSell) {
+    game.marketShares -= amountToSell;
+    game.gp += totalGain;
     marketOwnedEl.textContent = `Shares Owned: ${game.marketShares}`;
     gpSpan.textContent = Math.floor(game.gp);
   }
 });
+
 
 
 // =========================

@@ -57,15 +57,31 @@
       <p>Buy low, sell high. Totally not rigged.</p>
 
       <div id="market-price">Price: 100 GP</div>
-
-      <button id="market-buy">Buy 1 Share</button>
-      <button id="market-sell">Sell 1 Share</button>
-
       <p id="market-owned">Shares Owned: 0</p>
+
+      <!-- Buy amount selector -->
+      <div id="market-buy-options">
+        <button class="market-buy-btn" data-amount="1">1×</button>
+        <button class="market-buy-btn" data-amount="10">10×</button>
+        <button class="market-buy-btn" data-amount="100">100×</button>
+        <button class="market-buy-btn" data-amount="max">MAX</button>
+      </div>
+      
+      <!-- Sell amount selector -->
+      <div id="market-sell-options">
+        <button class="market-sell-btn" data-amount="1">1×</button>
+        <button class="market-sell-btn" data-amount="10">10×</button>
+        <button class="market-sell-btn" data-amount="100">100×</button>
+        <button class="market-sell-btn" data-amount="max">MAX</button>
+      </div>
+
+      <button id="market-buy">Buy</button>
+      <button id="market-sell">Sell</button>
 
       <button id="close-market">Close</button>
     </div>
   </div>
+
 
 
   <div id="achievement-popup-container"></div>

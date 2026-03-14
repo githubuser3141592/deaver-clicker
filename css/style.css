@@ -254,3 +254,62 @@ body {
 }
 
 
+#market-sidebar button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.2s ease;
+}
+
+#market-sidebar button:hover {
+  background: #555;
+}
+
+#market-buy-options {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.market-buy-btn {
+  flex: 1;
+  padding: 8px;
+  background: #333;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.market-buy-btn:hover {
+  background: #444;
+}
+
+#market-sell-options {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.market-sell-btn {
+  flex: 1;
+  padding: 8px;
+  background: #333;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.market-sell-btn:hover {
+  background: #444;
+}
+
