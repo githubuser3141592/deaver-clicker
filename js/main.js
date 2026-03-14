@@ -1,7 +1,7 @@
 // =========================
 // CORE GAME STATE
 // =========================
-
+let pendingClicks = 0;
 const game = {
   gp: 0,
   gps: 0,
@@ -68,13 +68,11 @@ function refreshUpgradeList() {
 // =========================
 
 deaverButton.addEventListener("click", () => {
-  game.gp += game.gpPerClick;
-  game.totalClicks++;
-  gpSpan.textContent = Math.floor(game.gp);
-
-  // add bounce animation
+  pendingClicks++;
+  
+  // bounce animation only
   deaverButton.classList.remove("bounce");
-  void deaverButton.offsetWidth; // restart animation
+  void deaverButton.offsetWidth;
   deaverButton.classList.add("bounce");
 });
 
@@ -239,6 +237,11 @@ setInterval(() => {
 
   if (changed) {
     // only update if passive income changed GP
+    gpSpan.textContent = Math.floor(game.gp);
+  }
+  if (pendingClicks > 0) {
+    game.gp += pendingClicks * game.gpPerClick;
+    pendingClicks = 0;
     gpSpan.textContent = Math.floor(game.gp);
   }
 }, 100);
