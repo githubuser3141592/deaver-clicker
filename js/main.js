@@ -25,6 +25,11 @@ deaverButton.addEventListener("click", () => {
   game.gp += game.gpPerClick;
   game.totalClicks++;
   gpSpan.textContent = Math.floor(game.gp);
+
+  // add bounce animation
+  deaverButton.classList.remove("bounce");
+  void deaverButton.offsetWidth; // restart animation
+  deaverButton.classList.add("bounce");
 });
 
 // =========================

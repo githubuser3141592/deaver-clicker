@@ -103,25 +103,17 @@ body {
 }
 
 #upgrades-panel {
-  margin-top: 20px;
+  background: #222;
+  padding: 10px;
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 #upgrades-bar {
-  height: 60px;
-  background: #222;
-  border-radius: 8px;
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 5px;
-  transition: height 0.2s ease;
-}
-
-#upgrades-expanded {
-  display: none;
-  background: #333;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .upgrade-icon {
@@ -129,8 +121,6 @@ body {
   height: 50px;
   background: #555;
   border-radius: 6px;
-  display: inline-block;
-  margin-right: 5px;
   cursor: pointer;
   position: relative;
 }
@@ -150,4 +140,14 @@ body {
   width: 200px;
   display: none;
   z-index: 10;
+}
+
+@keyframes clickBounce {
+  0%   { transform: translateY(0) scale(1); }
+  30%  { transform: translateY(4px) scale(0.96); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.bounce {
+  animation: clickBounce 0.12s ease-out;
 }
