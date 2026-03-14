@@ -148,6 +148,7 @@ function createBuildingUI(building) {
 }
 
 function initBuildings() {
+  buildingsList.innerHTML = ""; // prevent duplicates
   buildings.forEach(b => createBuildingUI(b));
 }
 

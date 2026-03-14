@@ -19,7 +19,19 @@ function saveGame() {
 
 function loadGame() {
   const raw = localStorage.getItem("deaverSave");
-  if (!raw) return;
+  if (!raw) {
+    // reset everything to defaults
+    game.gp = 0;
+    game.gps = 0;
+    game.gpPerClick = 1;
+    game.totalClicks = 0;
+
+    buildings.forEach(b => b.amount = 0);
+    upgrades.forEach(u => u.purchased = false);
+    achievements.forEach(a => a.unlocked = false);
+
+    return;
+  }
 
   const data = JSON.parse(raw);
 
@@ -36,12 +48,4 @@ function loadGame() {
   data.achievements.forEach((saved, i) => {
     Object.assign(achievements[i], saved);
   });
-
-  // ❌ REMOVE THESE LINES IF THEY STILL EXIST:
-  // buildingsList.innerHTML = "";
-  // initBuildings();
-  // upgradesBar.innerHTML = "";
-  // initUpgrades();
-
-  // UI is rebuilt ONLY in main.js
 }
