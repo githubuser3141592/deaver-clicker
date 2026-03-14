@@ -23,6 +23,9 @@ openUpgradesBtn.addEventListener("click", () => {
   refreshUpgradeList();
   upgradeOverlay.style.display = "block";
   setTimeout(() => upgradeOverlay.classList.add("show"), 10);
+
+  // hide red dot when opening upgrades
+  document.getElementById("upgrade-dot").style.display = "none";
 });
 
 upgradeOverlay.addEventListener("click", (e) => {
@@ -67,10 +70,10 @@ function refreshUpgradeList() {
 // CLICK HANDLER
 // =========================
 
-deaverButton.addEventListener("click", () => {
+deaverButton.addEventListener("pointerdown", (e) => {
+  e.preventDefault();
   pendingClicks++;
-  
-  // bounce animation only
+
   deaverButton.classList.remove("bounce");
   void deaverButton.offsetWidth;
   deaverButton.classList.add("bounce");
