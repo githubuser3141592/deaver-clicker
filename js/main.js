@@ -14,7 +14,54 @@ const gpSpan = document.getElementById("gp");
 const gpsSpan = document.getElementById("gps");
 const buildingsList = document.getElementById("buildings-list");
 const deaverButton = document.getElementById("deaver-button");
-const upgradesBar = document.getElementById("upgrades-bar");
+
+const openUpgradesBtn = document.getElementById("open-upgrades");
+const upgradeOverlay = document.getElementById("upgrade-overlay");
+const upgradeList = document.getElementById("upgrade-list");
+
+openUpgradesBtn.addEventListener("click", () => {
+  refreshUpgradeList();
+  upgradeOverlay.style.display = "block";
+  setTimeout(() => upgradeOverlay.classList.add("show"), 10);
+});
+
+upgradeOverlay.addEventListener("click", (e) => {
+  if (e.target === upgradeOverlay) {
+    upgradeOverlay.classList.remove("show");
+    setTimeout(() => upgradeOverlay.style.display = "none", 250);
+  }
+});
+
+function refreshUpgradeList() {
+  upgradeList.innerHTML = "";
+
+  upgrades.forEach(u => {
+    if (u.purchased) return;
+
+    const b = buildings.find(x => x.id === u.requiresBuilding);
+    if (!b || b.amount < 1) return; // hide if not enough buildings
+
+    const div = document.createElement("div");
+    div.className = "upgrade-entry";
+
+    if (game.gp < u.cost) div.classList.add("locked");
+
+    div.innerHTML = `
+      <strong>${u.name}</strong><br>
+      <p>${u.description}</p>
+      <p>Cost: ${u.cost} GP</p>
+    `;
+
+    div.addEventListener("click", () => {
+      if (game.gp >= u.cost) {
+        buyUpgrade(u);
+        refreshUpgradeList();
+      }
+    });
+
+    upgradeList.appendChild(div);
+  });
+}
 
 // =========================
 // CLICK HANDLER
@@ -128,54 +175,6 @@ function updateGPS() {
 // =========================
 // UPGRADE UI
 // =========================
-
-function createUpgradeIcon(upgrade) {
-  const icon = document.createElement("div");
-  icon.className = "upgrade-icon locked";
-
-  icon.addEventListener("mouseenter", () => {
-    showUpgradeInfo(upgrade);
-  });
-
-  icon.addEventListener("mouseleave", () => {
-    hideUpgradeInfo();
-  });
-
-  icon.addEventListener("click", () => {
-    if (canBuyUpgrade(upgrade)) {
-      buyUpgrade(upgrade);
-      icon.remove();
-      hideUpgradeInfo();
-    }
-  });
-
-  upgrade.ui = { icon };
-  upgradesBar.appendChild(icon);
-}
-
-function showUpgradeInfo(upgrade) {
-  const box = document.getElementById("upgrade-info-box");
-  box.style.display = "block";
-  box.innerHTML = `
-    <strong>${upgrade.name}</strong><br>
-    <p>${upgrade.description}</p>
-    <p>Cost: ${upgrade.cost} GP</p>
-    <p>Requires: ${upgrade.requiresBuilding}</p>
-  `;
-}
-
-function hideUpgradeInfo() {
-  const box = document.getElementById("upgrade-info-box");
-  box.style.display = "none";
-}
-
-function initUpgrades() {
-  upgrades.forEach(u => {
-    if (u.purchased === undefined) u.purchased = false;
-    createUpgradeIcon(u);
-  });
-}
-
 function canBuyUpgrade(u) {
   const b = buildings.find(x => x.id === u.requiresBuilding);
   return (

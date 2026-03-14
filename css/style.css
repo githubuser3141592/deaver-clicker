@@ -49,7 +49,6 @@ body {
 
 #deaver-button:active {
   transform: scale(0.95);
-  box-shadow: 0 0 20px #ffcc00;
 }
 
 #sidebar {
@@ -102,52 +101,8 @@ body {
   opacity: 0.8;
 }
 
-#upgrades-panel {
-  background: #222;
-  border-radius: 8px;
-  padding: 10px;
-  margin-top: 20px;
-  overflow: hidden;
-  height: 70px; /* collapsed height */
-  transition: height 0.2s ease;
-  position: relative;
-}
-
-#upgrades-panel:hover {
-  height: 260px; /* expanded height */
-}
-
-#upgrades-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.upgrade-icon {
-  width: 50px;
-  height: 50px;
-  background: #555;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-}
-
-.upgrade-icon.locked {
-  filter: brightness(40%);
-  cursor: not-allowed;
-}
-
-/* The separate info box */
-#upgrade-info-box {
-  position: absolute;
-  right: 10px;
-  top: 80px;
-  width: 220px;
-  background: #333;
-  padding: 10px;
-  border-radius: 8px;
-  display: none;
-  z-index: 20;
+#deaver-button {
+  will-change: transform;
 }
 
 @keyframes clickBounce {
@@ -158,4 +113,52 @@ body {
 
 .bounce {
   animation: clickBounce 0.12s ease-out;
+}
+
+#open-upgrades {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background: #444;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#upgrade-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  z-index: 100;
+}
+
+#upgrade-sidebar {
+  position: absolute;
+  right: -350px;
+  top: 0;
+  width: 350px;
+  height: 100%;
+  background: #222;
+  padding: 20px;
+  overflow-y: auto;
+  transition: right 0.25s ease;
+}
+
+#upgrade-overlay.show #upgrade-sidebar {
+  right: 0;
+}
+
+.upgrade-entry {
+  background: #333;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.upgrade-entry.locked {
+  filter: brightness(40%);
+  cursor: not-allowed;
 }
