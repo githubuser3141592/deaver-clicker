@@ -185,3 +185,8 @@ body {
   user-select: none;
   touch-action: none;
 }
+
+#buildings-list {
+  max-height: 400px; /* adjust as needed */
+  overflow-y: auto;
+}

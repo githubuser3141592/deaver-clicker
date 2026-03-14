@@ -191,22 +191,13 @@ function buyUpgrade(u) {
   game.gp -= u.cost;
   u.purchased = true;
   updateGPS();
-
-  // after buying, no new upgrades are “unseen”
-  hasSeenUpgrades = false;
   updateUpgradeDot();
 }
 
 function updateUpgradeDot() {
   const dot = document.getElementById("upgrade-dot");
 
-  // if player already opened the panel, don't show the dot
-  if (hasSeenUpgrades) {
-    dot.style.display = "none";
-    return;
-  }
-
-  let show = false;
+  let upgradeAvailable = false;
 
   upgrades.forEach(u => {
     if (u.purchased) return;
@@ -214,10 +205,15 @@ function updateUpgradeDot() {
     const b = buildings.find(x => x.id === u.requiresBuilding);
     if (!b || b.amount < 1) return;
 
-    show = true;
+    upgradeAvailable = true;
   });
 
-  dot.style.display = show ? "block" : "none";
+  // If a new upgrade becomes available AND the player hasn't seen it yet
+  if (upgradeAvailable && !hasSeenUpgrades) {
+    dot.style.display = "block";
+  } else {
+    dot.style.display = "none";
+  }
 }
 // =========================
 // ACHIEVEMENTS
@@ -261,7 +257,6 @@ setInterval(() => {
 // INIT
 // =========================
 loadGame();
-initBuildings();
 updateGPS();
 gpSpan.textContent = Math.floor(game.gp);
 updateUpgradeDot();
