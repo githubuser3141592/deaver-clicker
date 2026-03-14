@@ -33,20 +33,36 @@ function createBuildingUI(building) {
   const div = document.createElement("div");
   div.className = "building";
 
+  const title = document.createElement("div");
+  title.className = "building-title";
+  title.textContent = building.name;
+
+  const desc = document.createElement("div");
+  desc.className = "building-desc";
+  desc.textContent = building.description;
+
+  const prod = document.createElement("div");
+  prod.className = "building-prod";
+  prod.textContent = `+${building.baseProduction} GP/s each`;
+
   const btn = document.createElement("button");
-  btn.textContent = `${building.name} — ${building.baseCost} GP`;
+  btn.className = "building-buy";
+  btn.textContent = `Buy — ${building.baseCost} GP`;
   btn.addEventListener("click", () => buyBuilding(building.id));
 
-  const amt = document.createElement("span");
+  const amt = document.createElement("div");
+  amt.className = "building-owned";
   amt.textContent = `Owned: ${building.amount}`;
 
+  div.appendChild(title);
+  div.appendChild(desc);
+  div.appendChild(prod);
   div.appendChild(btn);
   div.appendChild(amt);
 
-  building.ui = { btn, amt };
+  building.ui = { btn, amt, prod };
   buildingsList.appendChild(div);
 }
-
 function initBuildings() {
   buildings.forEach(b => createBuildingUI(b));
 }
@@ -73,8 +89,9 @@ function buyBuilding(id) {
 }
 
 function updateBuildingUI(b) {
-  b.ui.btn.textContent = `${b.name} — ${getBuildingCost(b)} GP`;
+  b.ui.btn.textContent = `Buy — ${getBuildingCost(b)} GP`;
   b.ui.amt.textContent = `Owned: ${b.amount}`;
+  b.ui.prod.textContent = `+${b.baseProduction} GP/s each`;
 }
 
 // =========================
