@@ -26,8 +26,9 @@ const upgrades = [
     id: "freshmanTraining",
     name: "Freshman Training",
     cost: 100,
-    unlocksAt: "freshman",
+    requiresBuilding: "freshman",   // FIXED
     multiplier: 2,
+    purchased: false,               // REQUIRED
     description: "Freshmen become slightly less confused."
   }
 ];
@@ -39,6 +40,7 @@ const achievements = [
     name: "First Click!",
     condition: () => game.totalClicks >= 1,
     reward: 0.1,
-    description: "You clicked the Deaver."
+    description: "You clicked the Deaver.",
+    unlocked: false                 // also needed
   }
 ];
