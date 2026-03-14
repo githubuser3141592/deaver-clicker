@@ -2,6 +2,7 @@
 // CORE GAME STATE
 // =========================
 let pendingClicks = 0;
+let hasSeenUpgrades = false;
 const game = {
   gp: 0,
   gps: 0,
@@ -24,7 +25,7 @@ openUpgradesBtn.addEventListener("click", () => {
   upgradeOverlay.style.display = "block";
   setTimeout(() => upgradeOverlay.classList.add("show"), 10);
 
-  // hide red dot when opening upgrades
+  hasSeenUpgrades = true;
   document.getElementById("upgrade-dot").style.display = "none";
 });
 
@@ -190,11 +191,21 @@ function buyUpgrade(u) {
   game.gp -= u.cost;
   u.purchased = true;
   updateGPS();
+
+  // after buying, no new upgrades are “unseen”
+  hasSeenUpgrades = false;
   updateUpgradeDot();
 }
 
 function updateUpgradeDot() {
   const dot = document.getElementById("upgrade-dot");
+
+  // if player already opened the panel, don't show the dot
+  if (hasSeenUpgrades) {
+    dot.style.display = "none";
+    return;
+  }
+
   let show = false;
 
   upgrades.forEach(u => {
@@ -203,13 +214,11 @@ function updateUpgradeDot() {
     const b = buildings.find(x => x.id === u.requiresBuilding);
     if (!b || b.amount < 1) return;
 
-    // you have enough buildings → show dot
     show = true;
   });
 
   dot.style.display = show ? "block" : "none";
 }
-
 // =========================
 // ACHIEVEMENTS
 // =========================
