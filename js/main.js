@@ -76,6 +76,31 @@ function showAchievementPopup(a) {
   }, 6000);
 }
 
+//==========================
+// OFFLINE EARNINGS
+//==========================
+function showOfflinePopup(amount) {
+  const container = document.getElementById("achievement-popup-container");
+
+  const div = document.createElement("div");
+  div.className = "achievement-popup";
+  div.innerHTML = `
+    <strong>Offline Earnings</strong><br>
+    <span>You earned ${Math.floor(amount)} GP while away!</span>
+  `;
+
+  div.addEventListener("click", () => div.remove());
+  container.appendChild(div);
+
+  setTimeout(() => div.classList.add("show"), 10);
+
+  setTimeout(() => {
+    div.classList.remove("show");
+    setTimeout(() => div.remove(), 250);
+  }, 6000);
+}
+
+
 // =========================
 // UPGRADE LIST
 // =========================

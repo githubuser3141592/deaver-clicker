@@ -13,7 +13,7 @@ function saveGame() {
       ...a
     }))
   };
-
+  game.lastSave = Date.now();
   localStorage.setItem("deaverSave", JSON.stringify(saveData));
 }
 
@@ -56,4 +56,20 @@ function loadGame() {
   data.achievements.forEach((saved, i) => {
     Object.assign(achievements[i], saved);
   });
+  updateGPS();
+  if (game.lastSave) {
+    const now = Date.now();
+    const diffMs = now - game.lastSave;
+    const diffSec = Math.floor(diffMs / 1000);
+
+    // 50% offline earnings
+    const offlineEarnings = diffSec * game.gps * 0.5;
+
+    if (offlineEarnings > 0) {
+        game.gp += offlineEarnings;
+
+        // show popup
+        showOfflinePopup(offlineEarnings);
+    }
+  }
 }
