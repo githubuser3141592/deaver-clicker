@@ -194,6 +194,39 @@ const upgrades = [
     effect: () => {
         game.marketUnlocked = true;
     }
+  },
+  {
+    id: "offlineStorage1",
+    name: "Band Locker Storage",
+    cost: 5000,
+    requiresBuilding: "freshman",
+    purchased: false,
+    description: "Store up to 4 hours of offline earnings.",
+    effect: () => {
+        game.offlineCap = 4 * 3600;
+    }
+    },
+    {
+    id: "offlineStorage2",
+    name: "Climate-Controlled Storage",
+    cost: 25000,
+    requiresBuilding: "sectionLeader",
+    purchased: false,
+    description: "Store up to 12 hours of offline earnings.",
+    effect: () => {
+        game.offlineCap = 12 * 3600;
+    }
+    },
+    {
+    id: "offlineStorage3",
+    name: "Band Hall Vault",
+    cost: 100000,
+    requiresBuilding: "bandCaptain",
+    purchased: false,
+    description: "Store up to 24 hours of offline earnings.",
+    effect: () => {
+        game.offlineCap = 24 * 3600;
+    }
   }
 ];
 

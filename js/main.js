@@ -11,7 +11,9 @@ const game = {
   totalClicks: 0,
   globalMultiplier: 1,
   achievementBoost: 1,
-  idleBoost: 1
+  idleBoost: 1,
+  offlineCap: 3600,        // 1 hour default
+  offlineMultiplier: 0.5   // 50% of GPS while offline
 };
 
 // DOM refs
@@ -79,14 +81,16 @@ function showAchievementPopup(a) {
 //==========================
 // OFFLINE EARNINGS
 //==========================
-function showOfflinePopup(amount) {
+function showOfflinePopup(amount, seconds) {
   const container = document.getElementById("achievement-popup-container");
+
+  const hours = (seconds / 3600).toFixed(2);
 
   const div = document.createElement("div");
   div.className = "achievement-popup";
   div.innerHTML = `
     <strong>Offline Earnings</strong><br>
-    <span>You earned ${Math.floor(amount)} GP while away!</span>
+    <span>You earned ${Math.floor(amount)} GP while away (${hours} hours stored).</span>
   `;
 
   div.addEventListener("click", () => div.remove());
@@ -99,6 +103,7 @@ function showOfflinePopup(amount) {
     setTimeout(() => div.remove(), 250);
   }, 6000);
 }
+
 
 
 // =========================

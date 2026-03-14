@@ -59,6 +59,22 @@ function loadGame() {
   updateGPS();
   if (game.lastSave) {
     const now = Date.now();
+    const diffSec = Math.floor((now - game.lastSave) / 1000);
+
+    // Apply cap
+    const cappedTime = Math.min(diffSec, game.offlineCap);
+
+    // Calculate earnings
+    const offlineEarnings = cappedTime * game.gps * game.offlineMultiplier;
+
+    if (offlineEarnings > 0) {
+        game.gp += offlineEarnings;
+        showOfflinePopup(offlineEarnings, cappedTime);
+    }
+  }
+
+  if (game.lastSave) {
+    const now = Date.now();
     const diffMs = now - game.lastSave;
     const diffSec = Math.floor(diffMs / 1000);
 
