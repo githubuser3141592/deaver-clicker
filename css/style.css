@@ -220,23 +220,7 @@ body {
   transform: translateX(0);
 }
 
-#open-market {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  background: #444;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background 0.2s ease;
-}
-
-#open-market:hover {
-  background: #555;
-}
-
+/* Stock Market Overlay */
 #market-overlay {
   position: fixed;
   top: 0;
@@ -255,6 +239,7 @@ body {
   width: 100%;
 }
 
+/* Slide-out sidebar */
 #market-sidebar {
   position: absolute;
   right: 0;
@@ -265,5 +250,7 @@ body {
   color: white;
   padding: 20px;
   box-shadow: -2px 0 10px rgba(0,0,0,0.5);
+  overflow-y: auto;
 }
+
 

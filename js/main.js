@@ -314,17 +314,17 @@ game.marketShares = 0;
 
 // UI refs
 const marketOverlay = document.getElementById("market-overlay");
-const marketPanel = document.getElementById("market-panel");
+const marketPanel = document.getElementById("market-sidebar");
 const marketPriceEl = document.getElementById("market-price");
 const marketOwnedEl = document.getElementById("market-owned");
 const openMarketBtn = document.getElementById("open-market");
 
 document.getElementById("close-market").addEventListener("click", () => {
-  marketOverlay.style.display = "none";
+  marketOverlay.classList.remove("show");
 });
 
 openMarketBtn.addEventListener("click", () => {
-  marketOverlay.style.display = "flex";
+  marketOverlay.classList.add("show");
 });
 
 // Fake stock price movement (unique per player)
