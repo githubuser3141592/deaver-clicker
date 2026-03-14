@@ -331,12 +331,20 @@ openMarketBtn.addEventListener("click", () => {
 setInterval(() => {
   if (!game.marketUnlocked) return;
 
-  // Random walk with slight upward drift
-  const change = (Math.random() - 0.45) * 10;
-  game.marketPrice = Math.max(1, Math.floor(game.marketPrice + change));
+  let volatility = 5; // normal movement
+
+  // 10% chance of a volatility spike
+  if (Math.random() < 0.10) {
+    volatility = 40; // big swing
+  }
+
+  // random walk
+  const change = Math.floor((Math.random() - 0.5) * volatility);
+  game.marketPrice = Math.max(1, game.marketPrice + change);
 
   marketPriceEl.textContent = `Price: ${game.marketPrice} GP`;
-}, 2000);
+}, 30000); // 30 seconds
+
 
 // Buy
 document.getElementById("market-buy").addEventListener("click", () => {
