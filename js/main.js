@@ -284,6 +284,7 @@ setInterval(() => {
 // INIT
 // =========================
 loadGame();
+initBuildings();
 updateGPS();
 gpSpan.textContent = Math.floor(game.gp);
 updateUpgradeDot();
