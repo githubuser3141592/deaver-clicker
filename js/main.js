@@ -234,16 +234,6 @@ setInterval(() => {
     changed = true;
   }
 
-  upgrades.forEach(u => {
-    if (u.purchased) return;
-    const b = buildings.find(x => x.id === u.requiresBuilding);
-    if (b.amount >= 1 && game.gp >= u.cost) {
-      u.ui.icon.classList.remove("locked");
-    } else {
-      u.ui.icon.classList.add("locked");
-    }
-  });
-
   checkAchievements();
   updateUpgradeDot();
 
@@ -257,6 +247,5 @@ setInterval(() => {
 // =========================
 
 initBuildings();
-initUpgrades();
 updateGPS();
 gpSpan.textContent = 0;

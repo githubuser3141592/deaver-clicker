@@ -26,6 +26,7 @@ body {
 #main-layout {
   display: flex;
   gap: 20px;
+  flex-shrink: 0;
 }
 
 #click-area {
@@ -44,7 +45,7 @@ body {
   color: #fff;
   font-size: 80px;
   cursor: pointer;
-  transition: transform 0.05s ease, box-shadow 0.05s ease;
+  transition: none;
 }
 
 
