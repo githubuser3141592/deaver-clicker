@@ -20,6 +20,11 @@ const openUpgradesBtn = document.getElementById("open-upgrades");
 const upgradeOverlay = document.getElementById("upgrade-overlay");
 const upgradeList = document.getElementById("upgrade-list");
 
+document.getElementById("wipe-save-btn").addEventListener("click", () => {
+  localStorage.removeItem("deaverSave");
+  location.reload();
+});
+
 openUpgradesBtn.addEventListener("click", () => {
   refreshUpgradeList();
   upgradeOverlay.style.display = "block";
