@@ -198,18 +198,16 @@ function checkAchievements() {
 // =========================
 
 setInterval(() => {
-  // passive income
+  let changed = false;
+
   if (game.gps > 0) {
     game.gp += game.gps / 10;
-    gpSpan.textContent = Math.floor(game.gp);
+    changed = true;
   }
 
-  // update upgrade icon brightness
   upgrades.forEach(u => {
     if (u.purchased) return;
-
     const b = buildings.find(x => x.id === u.requiresBuilding);
-
     if (b.amount >= 1 && game.gp >= u.cost) {
       u.ui.icon.classList.remove("locked");
     } else {
@@ -218,8 +216,11 @@ setInterval(() => {
   });
 
   checkAchievements();
-}, 100);
 
+  if (changed) {
+    gpSpan.textContent = Math.floor(game.gp);
+  }
+}, 100);
 // =========================
 // INIT
 // =========================
