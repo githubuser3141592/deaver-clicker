@@ -29,7 +29,7 @@ const upgrades = [
     requiresBuilding: "freshman",   // FIXED
     multiplier: 2,
     purchased: false,               // REQUIRED
-    description: "Freshmen become slightly less confused. x2 GpS"
+    description: "Freshmen become slightly less confused. x2 GpS from freshmen"
   }
 ];
 

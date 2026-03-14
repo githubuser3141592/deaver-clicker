@@ -36,6 +36,33 @@ upgradeOverlay.addEventListener("click", (e) => {
   }
 });
 
+function showAchievementPopup(a) {
+  const container = document.getElementById("achievement-popup-container");
+
+  const div = document.createElement("div");
+  div.className = "achievement-popup";
+  div.innerHTML = `
+    <strong>${a.name}</strong><br>
+    <span>${a.description}</span>
+  `;
+
+  // clicking removes it
+  div.addEventListener("click", () => {
+    div.remove();
+  });
+
+  container.appendChild(div);
+
+  // animate in
+  setTimeout(() => div.classList.add("show"), 10);
+
+  // auto-remove after 6 seconds if not clicked
+  setTimeout(() => {
+    div.classList.remove("show");
+    setTimeout(() => div.remove(), 250);
+  }, 6000);
+}
+
 function refreshUpgradeList() {
   upgradeList.innerHTML = "";
 
@@ -223,7 +250,7 @@ function checkAchievements() {
   achievements.forEach(a => {
     if (!a.unlocked && a.condition()) {
       a.unlocked = true;
-      console.log("Achievement unlocked:", a.name);
+      showAchievementPopup(a);
     }
   });
 }
