@@ -85,7 +85,6 @@ function loadGame() {
         game.gp += offlineEarnings;
 
         // show popup
-        showOfflinePopup(offlineEarnings);
     }
   }
 }
