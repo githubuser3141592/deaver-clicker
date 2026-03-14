@@ -15,7 +15,6 @@ const gpsSpan = document.getElementById("gps");
 const buildingsList = document.getElementById("buildings-list");
 const deaverButton = document.getElementById("deaver-button");
 const upgradesBar = document.getElementById("upgrades-bar");
-const upgradesExpanded = document.getElementById("upgrades-expanded");
 
 // =========================
 // CLICK HANDLER
@@ -134,33 +133,40 @@ function createUpgradeIcon(upgrade) {
   const icon = document.createElement("div");
   icon.className = "upgrade-icon locked";
 
-  const tooltip = document.createElement("div");
-  tooltip.className = "upgrade-tooltip";
-  tooltip.innerHTML = `
-    <strong>${upgrade.name}</strong><br>
-    ${upgrade.description}<br>
-    Cost: ${upgrade.cost} GP
-  `;
-
-  icon.appendChild(tooltip);
-
   icon.addEventListener("mouseenter", () => {
-    tooltip.style.display = "block";
+    showUpgradeInfo(upgrade);
   });
 
   icon.addEventListener("mouseleave", () => {
-    tooltip.style.display = "none";
+    hideUpgradeInfo();
   });
 
   icon.addEventListener("click", () => {
     if (canBuyUpgrade(upgrade)) {
       buyUpgrade(upgrade);
       icon.remove();
+      hideUpgradeInfo();
     }
   });
 
-  upgrade.ui = { icon, tooltip };
+  upgrade.ui = { icon };
   upgradesBar.appendChild(icon);
+}
+
+function showUpgradeInfo(upgrade) {
+  const box = document.getElementById("upgrade-info-box");
+  box.style.display = "block";
+  box.innerHTML = `
+    <strong>${upgrade.name}</strong><br>
+    <p>${upgrade.description}</p>
+    <p>Cost: ${upgrade.cost} GP</p>
+    <p>Requires: ${upgrade.requiresBuilding}</p>
+  `;
+}
+
+function hideUpgradeInfo() {
+  const box = document.getElementById("upgrade-info-box");
+  box.style.display = "none";
 }
 
 function initUpgrades() {
