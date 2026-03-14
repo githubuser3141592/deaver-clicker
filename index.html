@@ -20,7 +20,6 @@
     <main id="main-layout">
       <section id="click-area">
         <button id="deaver-button">
-          <!-- replace with an image later -->
           <img id="deaver-face" src="img/deaver.PNG" alt="Deaver">
         </button>
       </section>
@@ -35,6 +34,12 @@
           <span id="upgrade-dot"></span>
         </button>
 
+        <!-- NEW: Stock Market Button -->
+        <button id="open-market" style="margin-top:10px; display:none;">
+          Stock Market
+        </button>
+
+        <!-- Upgrade Panel -->
         <div id="upgrade-overlay">
           <div id="upgrade-sidebar">
             <h2>Upgrades</h2>
@@ -44,36 +49,42 @@
       </section>
     </main>
   </div>
+
+  <!-- NEW: Stock Market Panel -->
   <div id="market-overlay">
-    <div id="market-panel">
+    <div id="market-sidebar">
       <h2>Band Stock Market</h2>
       <p>Buy low, sell high. Totally not rigged.</p>
 
-      <div id="market-price"></div>
+      <div id="market-price">Price: 100 GP</div>
 
       <button id="market-buy">Buy 1 Share</button>
       <button id="market-sell">Sell 1 Share</button>
 
       <p id="market-owned">Shares Owned: 0</p>
+
       <button id="close-market">Close</button>
     </div>
   </div>
 
   <div id="achievement-popup-container"></div>
-    <button id="wipe-save-btn" style="
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      padding: 10px 16px;
-      background: #c62828;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      z-index: 9999;
-    ">
-      Wipe Save (TEMP)
-    </button>
+
+  <!-- TEMP wipe button -->
+  <button id="wipe-save-btn" style="
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 16px;
+    background: #c62828;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 9999;
+  ">
+    Wipe Save (TEMP)
+  </button>
+
   <script src="js/data.js"></script>
   <script src="js/save.js"></script>
   <script src="js/main.js"></script>
