@@ -87,6 +87,13 @@ function refreshUpgradeList() {
 
     if (u.requiresBuilding) {
       const b = buildings.find(x => x.id === u.requiresBuilding);
+      // Special unlock condition for the stock market
+      if (u.id === "marketAccess") {
+        const fresh = buildings.find(b => b.id === "freshman").amount;
+        const leaders = buildings.find(b => b.id === "sectionLeader").amount;
+        if (fresh < 25 || leaders < 5) return;
+      }
+
       if (!b || b.amount < 1) return;
     }
 
@@ -250,6 +257,10 @@ function updateGPS() {
 function buyUpgrade(u) {
   game.gp -= u.cost;
   u.purchased = true;
+  if (u.id === "marketAccess") {
+    openMarketBtn.style.display = "block";
+  }
+
   applyUpgradeEffects();
   updateGPS();
   updateUpgradeDot();
@@ -289,6 +300,64 @@ function checkAchievements() {
     }
   });
 }
+
+//==========================
+// STOCK MARKET MINIGAME
+//==========================
+// =========================
+// STOCK MARKET MINIGAME
+// =========================
+
+game.marketUnlocked = false;
+game.marketPrice = 100;
+game.marketShares = 0;
+
+// UI refs
+const marketOverlay = document.getElementById("market-overlay");
+const marketPanel = document.getElementById("market-panel");
+const marketPriceEl = document.getElementById("market-price");
+const marketOwnedEl = document.getElementById("market-owned");
+const openMarketBtn = document.getElementById("open-market");
+
+document.getElementById("close-market").addEventListener("click", () => {
+  marketOverlay.style.display = "none";
+});
+
+openMarketBtn.addEventListener("click", () => {
+  marketOverlay.style.display = "flex";
+});
+
+// Fake stock price movement (unique per player)
+setInterval(() => {
+  if (!game.marketUnlocked) return;
+
+  // Random walk with slight upward drift
+  const change = (Math.random() - 0.45) * 10;
+  game.marketPrice = Math.max(1, Math.floor(game.marketPrice + change));
+
+  marketPriceEl.textContent = `Price: ${game.marketPrice} GP`;
+}, 2000);
+
+// Buy
+document.getElementById("market-buy").addEventListener("click", () => {
+  if (game.gp >= game.marketPrice) {
+    game.gp -= game.marketPrice;
+    game.marketShares++;
+    marketOwnedEl.textContent = `Shares Owned: ${game.marketShares}`;
+    gpSpan.textContent = Math.floor(game.gp);
+  }
+});
+
+// Sell
+document.getElementById("market-sell").addEventListener("click", () => {
+  if (game.marketShares > 0) {
+    game.marketShares--;
+    game.gp += game.marketPrice;
+    marketOwnedEl.textContent = `Shares Owned: ${game.marketShares}`;
+    gpSpan.textContent = Math.floor(game.gp);
+  }
+});
+
 
 // =========================
 // GAME LOOP (10 TPS)

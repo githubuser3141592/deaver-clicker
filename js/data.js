@@ -182,6 +182,18 @@ const upgrades = [
       const unlocked = achievements.filter(a => a.unlocked).length;
       game.achievementBoost = 1 + unlocked * 0.02;
     }
+  },
+  {
+    id: "marketAccess",
+    name: "Band Economy 101",
+    cost: 100000,
+    requiresBuilding: null,
+    purchased: false,
+    type: "minigameUnlock",
+    description: "Unlocks the Band Stock Market when you have 25 Freshmen and 5 Section Leaders.",
+    effect: () => {
+        game.marketUnlocked = true;
+    }
   }
 ];
 
