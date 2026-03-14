@@ -20,15 +20,23 @@ function saveGame() {
 function loadGame() {
   const raw = localStorage.getItem("deaverSave");
   if (!raw) {
-    // reset everything to defaults
+    // Reset everything to defaults when no save exists
     game.gp = 0;
     game.gps = 0;
     game.gpPerClick = 1;
     game.totalClicks = 0;
 
-    buildings.forEach(b => b.amount = 0);
-    upgrades.forEach(u => u.purchased = false);
-    achievements.forEach(a => a.unlocked = false);
+    buildings.forEach(b => {
+      b.amount = 0;
+    });
+
+    upgrades.forEach(u => {
+      u.purchased = false;
+    });
+
+    achievements.forEach(a => {
+      a.unlocked = false;
+    });
 
     return;
   }
