@@ -178,7 +178,7 @@ function createBuildingUI(building) {
 
   const btn = document.createElement("button");
   btn.className = "building-buy";
-  btn.textContent = `Buy — ${building.baseCost} GP`;
+  btn.textContent = `Buy — ${getBuildingCost(building)} GP`;
   btn.addEventListener("click", () => buyBuilding(building.id));
 
   const amt = document.createElement("div");
@@ -484,8 +484,8 @@ setInterval(() => {
 // INIT
 // =========================
 loadGame();
-initBuildings();
 applyUpgradeEffects();
+initBuildings();
 updateGPS();
 gpSpan.textContent = Math.floor(game.gp);
 updateUpgradeDot();
