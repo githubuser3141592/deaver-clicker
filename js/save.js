@@ -23,32 +23,25 @@ function loadGame() {
 
   const data = JSON.parse(raw);
 
-  // restore game
   Object.assign(game, data.game);
 
-  // restore buildings
   data.buildings.forEach((saved, i) => {
     Object.assign(buildings[i], saved);
   });
 
-  // restore upgrades
   data.upgrades.forEach((saved, i) => {
     Object.assign(upgrades[i], saved);
   });
 
-  // restore achievements
   data.achievements.forEach((saved, i) => {
     Object.assign(achievements[i], saved);
   });
 
-  // rebuild UI
-  buildingsList.innerHTML = "";
-  initBuildings();
+  // ❌ REMOVE THESE LINES IF THEY STILL EXIST:
+  // buildingsList.innerHTML = "";
+  // initBuildings();
+  // upgradesBar.innerHTML = "";
+  // initUpgrades();
 
-  // upgrades are now shown ONLY in the slide-out panel
-  // so we do NOT rebuild icons anymore
-
-  updateGPS();
-  gpSpan.textContent = Math.floor(game.gp);
-  updateUpgradeDot();
+  // UI is rebuilt ONLY in main.js
 }
