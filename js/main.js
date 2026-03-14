@@ -101,6 +101,7 @@ function refreshUpgradeList() {
 deaverButton.addEventListener("pointerdown", (e) => {
   e.preventDefault();
   pendingClicks++;
+  game.totalClicks++;
 
   deaverButton.classList.remove("bounce");
   void deaverButton.offsetWidth;
