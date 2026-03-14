@@ -361,6 +361,11 @@ openMarketBtn.addEventListener("click", () => {
   marketOverlay.classList.add("show");
 });
 
+document.getElementById("close-market").addEventListener("click", () => {
+  marketOverlay.classList.remove("show");
+});
+
+
 // Fake stock price movement (unique per player)
 setInterval(() => {
   if (!game.marketUnlocked) return;

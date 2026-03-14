@@ -313,3 +313,78 @@ body {
   background: #444;
 }
 
+#open-market {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s ease;
+}
+
+#open-market:hover {
+  background: #555;
+}
+
+.market-amount-row {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0 12px 0;
+}
+
+.market-buy-btn,
+.market-sell-btn {
+  flex: 1;
+  padding: 8px;
+  background: #333;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.market-buy-btn:hover,
+.market-sell-btn:hover {
+  background: #444;
+}
+
+#market-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 150;
+}
+
+#market-overlay.show {
+  opacity: 1;
+  background: rgba(0,0,0,0.4);
+  pointer-events: auto;
+}
+
+#market-sidebar {
+  position: absolute;
+  right: -320px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background: #222;
+  color: white;
+  padding: 20px;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.5);
+  transition: right 0.25s ease;
+}
+
+#market-overlay.show #market-sidebar {
+  right: 0;
+}
