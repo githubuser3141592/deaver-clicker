@@ -193,6 +193,7 @@ const upgrades = [
     description: "Unlocks the Band Stock Market when you have 25 Freshmen and 5 Section Leaders.",
     effect: () => {
         game.marketUnlocked = true;
+        openMarketBtn.style.display = "block";
     }
   },
   {
